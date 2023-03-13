@@ -1,16 +1,6 @@
 const GameBoard = (() => {
   let board = Array(9).fill(undefined);
 
-  const filterByMarker = (marker) => {
-    const result = [];
-    board.forEach((cell, index) => {
-      if (cell === marker) {
-        result.push(index);
-      }
-    });
-    return result;
-  };
-
   const displayBoard = () => {
     board.forEach((element, index) => {
       const cell = document.getElementById(index);
@@ -24,17 +14,41 @@ const GameBoard = (() => {
     displayBoard();
   };
 
+  const filterByMarker = (marker) => {
+    const result = [];
+    board.forEach((cell, index) => {
+      if (cell === marker) {
+        result.push(index);
+      }
+    });
+    return result;
+  };
+
+  const checkBoardFull = () => {
+    if (!board.includes(undefined)) {
+      return true;
+    }
+    return false;
+  };
+
   const resetBoard = () => {
     board = Array(9).fill(undefined);
     displayBoard();
   };
 
-  return { filterByMarker, displayBoard, placeMarker, resetBoard };
+  return {
+    displayBoard,
+    placeMarker,
+    filterByMarker,
+    checkBoardFull,
+    resetBoard,
+  };
 })();
 
 const Player = (name, marker) => ({ name, marker });
 
 const GameController = (() => {
+  let gameOver = false;
   const messages = document.querySelector('.messages');
 
   const board = GameBoard;
@@ -46,7 +60,7 @@ const GameController = (() => {
     [0, 3, 6],
     [1, 4, 7],
     [2, 5, 8],
-    [1, 4, 8],
+    [0, 4, 8],
     [2, 4, 6],
   ];
 
@@ -64,9 +78,9 @@ const GameController = (() => {
     cells.forEach((cell) => (cell.disabled = bool));
   };
 
-  const displayWMessage = () => {
+  const displayWMessage = (content) => {
     const message = document.createElement('div');
-    message.textContent = `${activePlayer.name} wins!`;
+    message.textContent = content;
     messages.appendChild(message);
   };
 
@@ -74,7 +88,8 @@ const GameController = (() => {
     const playerCells = board.filterByMarker(activePlayer.marker);
     winningCombos.forEach((combo) => {
       if (combo.every((cell) => playerCells.includes(cell))) {
-        displayWMessage();
+        gameOver = true;
+        displayWMessage(`${activePlayer.name} wins!`);
         toggleCells(true);
       }
     });
@@ -84,7 +99,14 @@ const GameController = (() => {
     if (event.target.value === 'undefined') {
       board.placeMarker(event.target.id, activePlayer.marker);
       checkWinner();
-      switchPlayerTurn();
+
+      if (gameOver === false) {
+        if (board.checkBoardFull() === true) {
+          displayWMessage("It's a tie");
+          toggleCells(true);
+        }
+        switchPlayerTurn();
+      }
     }
   };
 
@@ -96,6 +118,7 @@ const GameController = (() => {
 
   const resetGame = () => {
     board.resetBoard();
+    gameOver = false;
     toggleCells(false);
     messages.innerHTML = '';
     // eslint-disable-next-line prefer-destructuring
