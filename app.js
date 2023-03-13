@@ -1,6 +1,5 @@
 const GameBoard = (() => {
-  // const board = [undefined, 'X', 'O', undefined, 'O', 'X', undefined, 'O', 'O'];
-  const board = Array(9).fill(undefined);
+  let board = Array(9).fill(undefined);
 
   const filterByMarker = (marker) => {
     const result = [];
@@ -25,12 +24,19 @@ const GameBoard = (() => {
     displayBoard();
   };
 
-  return { filterByMarker, displayBoard, placeMarker };
+  const resetBoard = () => {
+    board = Array(9).fill(undefined);
+    displayBoard();
+  };
+
+  return { filterByMarker, displayBoard, placeMarker, resetBoard };
 })();
 
 const Player = (name, marker) => ({ name, marker });
 
 const GameController = (() => {
+  const messages = document.querySelector('.messages');
+
   const board = GameBoard;
   const cells = document.querySelectorAll('.cell');
   const winningCombos = [
@@ -53,13 +59,12 @@ const GameController = (() => {
     activePlayer = activePlayer === players[0] ? players[1] : players[0];
   };
 
-  const endOfGame = () => {
+  const toggleCells = (bool) => {
     // eslint-disable-next-line no-return-assign, no-param-reassign
-    cells.forEach((cell) => (cell.disabled = true));
+    cells.forEach((cell) => (cell.disabled = bool));
   };
 
   const displayWMessage = () => {
-    const messages = document.querySelector('.messages');
     const message = document.createElement('div');
     message.textContent = `${activePlayer.name} wins!`;
     messages.appendChild(message);
@@ -70,7 +75,7 @@ const GameController = (() => {
     winningCombos.forEach((combo) => {
       if (combo.every((cell) => playerCells.includes(cell))) {
         displayWMessage();
-        endOfGame();
+        toggleCells(true);
       }
     });
   };
@@ -88,6 +93,17 @@ const GameController = (() => {
       cell.addEventListener('click', (event) => onCellClick(event));
     });
   };
+
+  const resetGame = () => {
+    board.resetBoard();
+    toggleCells(false);
+    messages.innerHTML = '';
+    // eslint-disable-next-line prefer-destructuring
+    activePlayer = players[0];
+  };
+
+  const resetBtn = document.querySelector('.reset-btn');
+  resetBtn.addEventListener('click', resetGame);
 
   board.displayBoard();
   startGame();
