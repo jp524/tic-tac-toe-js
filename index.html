@@ -6,23 +6,37 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Tic Tac Toe</title>
   <link rel="stylesheet" href="./style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand&display=swap" rel="stylesheet">
 </head>
 
 <body>
-  <div class="board">
-    <button id="0" class="cell"></button>
-    <button id="1" class="cell"></button>
-    <button id="2" class="cell"></button>
-    <button id="3" class="cell"></button>
-    <button id="4" class="cell"></button>
-    <button id="5" class="cell"></button>
-    <button id="6" class="cell"></button>
-    <button id="7" class="cell"></button>
-    <button id="8" class="cell"></button>
+  <div class="header">
+    <h1>Tic Tac Toe</h1>
   </div>
-  <div class="messages"></div>
-  <button type="button" class="reset-btn">Reset Game</button>
-  <script src="./app.js"></script>
+
+  <div class="container">
+    <div class="messages"></div>
+    <div class="board">
+      <button id="0" class="cell"></button>
+      <button id="1" class="cell"></button>
+      <button id="2" class="cell"></button>
+      <button id="3" class="cell"></button>
+      <button id="4" class="cell"></button>
+      <button id="5" class="cell"></button>
+      <button id="6" class="cell"></button>
+      <button id="7" class="cell"></button>
+      <button id="8" class="cell"></button>
+    </div>
+    <button type="button" class="reset-btn">Reset Game</button>
+    <script src="./app.js"></script>
+  </div>
+
+  <div class="footer">
+    <p>Copyright © JP 2023</p>
+    <a href="https://www.theodinproject.com/lessons/javascript-tic-tac-toe">The Odin Project</a>
+  </div>
 </body>
 
 </html>

@@ -1,10 +1,59 @@
+body {
+  font-family: 'Quicksand', sans-serif;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100vh;
+  margin: 0 40px;
+  background-color: floralwhite
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
 .board {
   display: grid;
-  grid-template-columns: repeat(3, 50px);
+  grid-template-columns: repeat(3, 70px);
+  grid-template-rows: repeat(3, 70px);
 }
 
 .cell {
-  border: 1px solid;
-  width: 50px;
+  width: auto;
+  height: auto;
+  border: 2px solid;
+  margin-right: -2px;
+  margin-bottom: -2px;
+  background-color: white;
+}
+
+.reset-btn {
+  padding: 6px 10px;
+  color: white;
+  background-color: rgba(206, 12, 12, 0.839);
+  border-radius: 8px;
+  border: 2px solid black;
+}
+
+button {
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: not-allowed;
+}
+
+.footer {
   height: 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+a {
+  text-decoration: none;
+  color: rgba(206, 12, 12, 0.839)
 }
